@@ -1,0 +1,26 @@
+# serverless.yml
+service: email-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    EMAIL_USER: ${env:EMAIL_USER}
+    EMAIL_PASS: ${env:EMAIL_PASS}
+
+plugins:
+  - serverless-offline
+
+functions:
+  sendEmail:
+    handler: handler.sendEmail
+    events:
+      - http:
+          path: email/send
+          method: post
+          cors: true
+
+custom:
+  serverless-offline:
+    httpPort: 3000
